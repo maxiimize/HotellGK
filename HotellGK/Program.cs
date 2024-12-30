@@ -1,10 +1,18 @@
-﻿namespace HotellGK
+﻿using Microsoft.Extensions.DependencyInjection;
+
+namespace HotellGK
 {
     internal class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, World!");
+            using (var context = new HotelDbContext())
+            {
+                context.Database.EnsureCreated();
+            }
+
+
+
         }
     }
 }
