@@ -1,4 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace HotellGK
 {
@@ -6,22 +8,36 @@ namespace HotellGK
     {
         static void Main(string[] args)
         {
-            using (var context = new HotelDbContext())
+            
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .Build();
+
+            
+            var services = new ServiceCollection();
+            services.AddSingleton(configuration);
+            services.AddDbContext<HotelDbContext>();
+
+            var serviceProvider = services.BuildServiceProvider();
+
+            
+            using (var context = serviceProvider.GetService<HotelDbContext>())
             {
                 context.Database.EnsureCreated();
             }
 
-
+            
             string[] menuOptions =
-        {
-            "Add Room",
-            "Add Customer",
-            "Add Booking",
-            "View Rooms",
-            "View Customers",
-            "View Bookings",
-            "Exit"
-        };
+            {
+                "Add Room",
+                "Add Customer",
+                "Add Booking",
+                "View Rooms",
+                "View Customers",
+                "View Bookings",
+                "Exit"
+            };
 
             int selectedOption = 0;
 
