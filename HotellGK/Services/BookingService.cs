@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace HotellGK.Services
 {
-    public class BookingService
+    public class BookingService : IService<Booking>
     {
         private readonly HotelDbContext _context;
 
