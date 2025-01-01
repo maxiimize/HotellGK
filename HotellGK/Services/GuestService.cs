@@ -22,5 +22,35 @@ namespace HotellGK.Services
             _context.SaveChanges();
             Console.WriteLine("Guest added successfully!");
         }
+
+        public void Update(int id, Guest entity)
+        {
+            var guest = _context.Guests.FirstOrDefault(g => g.GuestId == id);
+            if (guest == null)
+            {
+                Console.WriteLine("Guest not found.");
+                return;
+            }
+
+            guest.Name = entity.Name;
+            guest.Email = entity.Email;
+            guest.PhoneNumber = entity.PhoneNumber;
+            _context.SaveChanges();
+            Console.WriteLine("Guest updated successfully!");
+        }
+
+        public void Delete(int id)
+        {
+            var guest = _context.Guests.FirstOrDefault(g => g.GuestId == id);
+            if (guest == null)
+            {
+                Console.WriteLine("Guest not found.");
+                return;
+            }
+
+            _context.Guests.Remove(guest);
+            _context.SaveChanges();
+            Console.WriteLine("Guest deleted successfully!");
+        }
     }
 }
