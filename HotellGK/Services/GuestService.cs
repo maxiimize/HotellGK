@@ -7,13 +7,18 @@ using System.Threading.Tasks;
 
 namespace HotellGK.Services
 {
-    public class GuestService
+    public class GuestService : IService<Guest>
     {
         private readonly HotelDbContext _context;
 
         public GuestService(HotelDbContext context)
         {
             _context = context;
+        }
+
+        public List<Guest> GetAll()
+        {
+            return _context.Guests.ToList();
         }
 
         public void Add(Guest entity)
