@@ -40,9 +40,13 @@ namespace HotellGK.Services
 
             room.RoomType = entity.RoomType;
             room.HasExtraBeds = entity.HasExtraBeds;
+            room.MaxExtraBeds = entity.MaxExtraBeds;
+            room.IsAvailable = entity.IsAvailable;
+
             _context.SaveChanges();
             Console.WriteLine("Room updated successfully!");
         }
+
 
         public void Delete(int id)
         {

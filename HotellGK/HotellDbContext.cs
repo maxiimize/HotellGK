@@ -28,10 +28,10 @@ namespace HotellGK
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Room>().HasData(
-                new Room { RoomId = 1, RoomType = "Single", HasExtraBeds = false },
-                new Room { RoomId = 2, RoomType = "Double", HasExtraBeds = true },
-                new Room { RoomId = 3, RoomType = "Double", HasExtraBeds = true },
-                new Room { RoomId = 4, RoomType = "Single", HasExtraBeds = false }
+                new Room { RoomId = 1, RoomType = "Single", HasExtraBeds = false, MaxExtraBeds = 0, IsAvailable = true },
+                new Room { RoomId = 2, RoomType = "Double", HasExtraBeds = true, MaxExtraBeds = 2, IsAvailable = true },
+                new Room { RoomId = 3, RoomType = "Double", HasExtraBeds = true, MaxExtraBeds = 1, IsAvailable = true },
+                new Room { RoomId = 4, RoomType = "Single", HasExtraBeds = false, MaxExtraBeds = 0, IsAvailable = true }
             );
 
             modelBuilder.Entity<Guest>().HasData(

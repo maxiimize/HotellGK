@@ -19,6 +19,12 @@ namespace HotellGK.Services
 
         public void Add(Booking entity)
         {
+            if (!IsRoomAvailable(entity.RoomId, entity.CheckInDate, entity.CheckOutDate))
+            {
+                Console.WriteLine("Room is not available for the selected dates.");
+                return;
+            }
+
             _context.Bookings.Add(entity);
             _context.SaveChanges();
             Console.WriteLine("Booking added successfully!");
@@ -59,5 +65,14 @@ namespace HotellGK.Services
             _context.SaveChanges();
             Console.WriteLine("Booking deleted successfully!");
         }
+
+        public bool IsRoomAvailable(int roomId, DateTime checkInDate, DateTime checkOutDate)
+        {
+            return !_context.Bookings.Any(b => b.RoomId == roomId &&
+                                               ((checkInDate >= b.CheckInDate && checkInDate < b.CheckOutDate) ||
+                                                (checkOutDate > b.CheckInDate && checkOutDate <= b.CheckOutDate) ||
+                                                (checkInDate <= b.CheckInDate && checkOutDate >= b.CheckOutDate)));
+        }
+
     }
 }
