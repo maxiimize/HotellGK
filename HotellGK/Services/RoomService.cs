@@ -57,6 +57,13 @@ namespace HotellGK.Services
                 return;
             }
 
+            var hasActiveBookings = _context.Bookings.Any(b => b.RoomId == id);
+            if (hasActiveBookings)
+            {
+                Console.WriteLine("Cannot delete room. It has active bookings.");
+                return;
+            }
+
             _context.Rooms.Remove(room);
             _context.SaveChanges();
             Console.WriteLine("Room deleted successfully!");

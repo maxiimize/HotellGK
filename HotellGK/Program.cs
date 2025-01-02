@@ -27,6 +27,7 @@ namespace HotellGK
                 "Add Customer",
                 "Add Booking",
                 "Update Room",
+                "Delete Room",
                 "View Rooms",
                 "View Guests",
                 "View Bookings",
@@ -108,7 +109,14 @@ namespace HotellGK
                     Console.ReadKey();
                     break;
 
+                case "Delete Room":
+                    Console.Write("Enter Room ID to delete: ");
+                    var roomIdToDelete = int.Parse(Console.ReadLine());
 
+                    // Kontrollera om rummet kan tas bort
+                    roomService.Delete(roomIdToDelete);
+                    Console.ReadKey();
+                    break;
 
                 case "Add Customer":
                     Console.Write("Enter Customer Name: ");
