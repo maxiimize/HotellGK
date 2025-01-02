@@ -25,7 +25,6 @@ namespace HotellGK.Services
         {
             _context.Guests.Add(entity);
             _context.SaveChanges();
-            Console.WriteLine("Guest added successfully!");
         }
 
         public void Update(int id, Guest entity)
@@ -40,9 +39,10 @@ namespace HotellGK.Services
             guest.Name = entity.Name;
             guest.Email = entity.Email;
             guest.PhoneNumber = entity.PhoneNumber;
+
             _context.SaveChanges();
-            Console.WriteLine("Guest updated successfully!");
         }
+
 
         public void Delete(int id)
         {
@@ -55,7 +55,6 @@ namespace HotellGK.Services
 
             _context.Guests.Remove(guest);
             _context.SaveChanges();
-            Console.WriteLine("Guest deleted successfully!");
         }
     }
 }

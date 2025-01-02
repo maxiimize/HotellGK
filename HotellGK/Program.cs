@@ -24,13 +24,14 @@ namespace HotellGK
             string[] menuOptions =
             {
                 "Add Room",
-                "Add Customer",
-                "Add Booking",
                 "Update Room",
-                "Delete Room",
                 "View Rooms",
+                "Add Customer",
+                "Update Customer",
+                "Add Booking",
                 "View Guests",
                 "View Bookings",
+                "Delete Room",
                 "Exit"
             };
 
@@ -231,6 +232,37 @@ namespace HotellGK
                     Console.ReadKey();
                     break;
 
+                case "Update Customer":
+                    Console.Write("Enter Customer ID to update: ");
+                    var customerIdToUpdate = int.Parse(Console.ReadLine());
+
+                    var customer = guestService.GetAll().FirstOrDefault(g => g.GuestId == customerIdToUpdate);
+                    if (customer == null)
+                    {
+                        Console.WriteLine("Customer not found.");
+                        Console.ReadKey();
+                        break;
+                    }
+
+                    Console.Write($"Enter New Name (current: {customer.Name}): ");
+                    var newName = Console.ReadLine();
+                    Console.Write($"Enter New Email (current: {customer.Email}): ");
+                    var newEmail = Console.ReadLine();
+                    Console.Write($"Enter New Phone Number (current: {customer.PhoneNumber}): ");
+                    var newPhone = Console.ReadLine();
+
+                    guestService.Update(customerIdToUpdate, new Guest
+                    {
+                        Name = string.IsNullOrWhiteSpace(newName) ? customer.Name : newName,
+                        Email = string.IsNullOrWhiteSpace(newEmail) ? customer.Email : newEmail,
+                        PhoneNumber = string.IsNullOrWhiteSpace(newPhone) ? customer.PhoneNumber : newPhone
+                    });
+
+                    Console.WriteLine("Customer updated successfully!");
+                    Console.ReadKey();
+                    break;
+
+
                 case "Add Booking":
                     Console.Write("Enter Room ID: ");
                     var roomId = int.Parse(Console.ReadLine());
@@ -264,13 +296,13 @@ namespace HotellGK
 
                 case "View Customers":
                     var customers = guestService.GetAll();
-                    foreach (var customer in customers)
+                    foreach (var viewCustomer in customers)
                     {
                         Console.WriteLine($"" +
-                            $"ID: {customer.GuestId}, " +
-                            $"Name: {customer.Name}, " +
-                            $"Email: {customer.Email}, " +
-                            $"Phone: {customer.PhoneNumber}");
+                            $"ID: {viewCustomer.GuestId}, " +
+                            $"Name: {viewCustomer.Name}, " +
+                            $"Email: {viewCustomer.Email}, " +
+                            $"Phone: {viewCustomer.PhoneNumber}");
                     }
                     Console.ReadKey();
                     break;
