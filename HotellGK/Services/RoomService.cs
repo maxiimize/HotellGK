@@ -21,7 +21,6 @@ namespace HotellGK.Services
         {
             _context.Rooms.Add(entity);
             _context.SaveChanges();
-            Console.WriteLine("Room added successfully!");
         }
 
         public List<Room> GetAll()
@@ -44,7 +43,6 @@ namespace HotellGK.Services
             room.IsAvailable = entity.IsAvailable;
 
             _context.SaveChanges();
-            Console.WriteLine("Room updated successfully!");
         }
 
 
@@ -66,7 +64,6 @@ namespace HotellGK.Services
 
             _context.Rooms.Remove(room);
             _context.SaveChanges();
-            Console.WriteLine("Room deleted successfully!");
         }
 
         public List<(Room Room, string Status)> GetRoomStatuses()

@@ -27,7 +27,6 @@ namespace HotellGK.Services
 
             _context.Bookings.Add(entity);
             _context.SaveChanges();
-            Console.WriteLine("Booking added successfully!");
         }
 
         public List<Booking> GetAll()
@@ -49,7 +48,6 @@ namespace HotellGK.Services
             booking.RoomId = entity.RoomId;
             booking.GuestId = entity.GuestId;
             _context.SaveChanges();
-            Console.WriteLine("Booking updated successfully!");
         }
 
         public void Delete(int id)
@@ -63,7 +61,6 @@ namespace HotellGK.Services
 
             _context.Bookings.Remove(booking);
             _context.SaveChanges();
-            Console.WriteLine("Booking deleted successfully!");
         }
 
         public bool IsRoomAvailable(int roomId, DateTime checkInDate, DateTime checkOutDate)
