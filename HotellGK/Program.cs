@@ -145,19 +145,29 @@ namespace HotellGK
                     break;
 
                 case "View Rooms":
-                    var rooms = roomService.GetAll();
-                    foreach (var room in rooms)
+                    var roomStatuses = roomService.GetRoomStatuses();
+                    foreach (var roomStatus in roomStatuses)
                     {
-                        Console.WriteLine($"ID: {room.RoomId}, Type: {room.RoomType}, Extra Beds: {room.HasExtraBeds}, Available: {room.IsAvailable}");
+                        Console.WriteLine($"" +
+                            $"ID: {roomStatus.Room.RoomId}, " +
+                            $"Type: {roomStatus.Room.RoomType}, " +
+                            $"Extra Beds: {roomStatus.Room.HasExtraBeds}, " +
+                            $"Max Extra Beds: {roomStatus.Room.MaxExtraBeds}, " +
+                            $"Status: {roomStatus.Status}");
                     }
                     Console.ReadKey();
                     break;
+
 
                 case "View Customers":
                     var customers = guestService.GetAll();
                     foreach (var customer in customers)
                     {
-                        Console.WriteLine($"ID: {customer.GuestId}, Name: {customer.Name}, Email: {customer.Email}, Phone: {customer.PhoneNumber}");
+                        Console.WriteLine($"" +
+                            $"ID: {customer.GuestId}, " +
+                            $"Name: {customer.Name}, " +
+                            $"Email: {customer.Email}, " +
+                            $"Phone: {customer.PhoneNumber}");
                     }
                     Console.ReadKey();
                     break;
@@ -166,7 +176,12 @@ namespace HotellGK
                     var bookings = bookingService.GetAll();
                     foreach (var booking in bookings)
                     {
-                        Console.WriteLine($"ID: {booking.BookingId}, Room ID: {booking.RoomId}, Guest ID: {booking.GuestId}, Check-In: {booking.CheckInDate}, Check-Out: {booking.CheckOutDate}");
+                        Console.WriteLine($"" +
+                            $"ID: {booking.BookingId}, " +
+                            $"Room ID: {booking.RoomId}, " +
+                            $"Guest ID: {booking.GuestId}, " +
+                            $"Check-In: {booking.CheckInDate}, " +
+                            $"Check-Out: {booking.CheckOutDate}");
                     }
                     Console.ReadKey();
                     break;

@@ -68,5 +68,24 @@ namespace HotellGK.Services
             _context.SaveChanges();
             Console.WriteLine("Room deleted successfully!");
         }
+
+        public List<(Room Room, string Status)> GetRoomStatuses()
+        {
+            var rooms = _context.Rooms.ToList();
+            var bookings = _context.Bookings.ToList();
+
+            var roomStatuses = rooms.Select(room =>
+            {
+                var isOccupied = bookings.Any(b =>
+                    b.RoomId == room.RoomId &&
+                    b.CheckInDate <= DateTime.Now &&
+                    b.CheckOutDate >= DateTime.Now);
+
+                return (Room: room, Status: isOccupied ? "Occupied" : "Available");
+            }).ToList();
+
+            return roomStatuses;
+        }
+
     }
 }
