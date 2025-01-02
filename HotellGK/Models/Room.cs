@@ -1,18 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace HotellGK.Models
+﻿public class Room
 {
-    public class Room
-    {
-        public int RoomId { get; set; }
-        public string RoomType { get; set; } 
-        public bool HasExtraBeds { get; set; }
-        public int MaxExtraBeds { get; set; } 
-        public bool IsAvailable { get; set; }
-    }
-
+    public int RoomId { get; set; }
+    public string RoomType { get; set; } 
+    public bool HasExtraBeds { get; set; }
+    public int MaxExtraBeds { get; set; } 
+    public string RoomSize { get; set; } 
+    public bool IsAvailable { get; set; }
 }
