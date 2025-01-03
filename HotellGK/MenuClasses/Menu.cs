@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace HotellGK
+namespace HotellGK.MenuClasses
 {
     public class Menu
     {
@@ -60,6 +60,47 @@ namespace HotellGK
 
             Console.WriteLine("Press any key to return to the menu...");
             Console.ReadKey(true);
+        }
+
+        public string DrawMenuController(string[] options, string prompt)
+        {
+            int selectedOption = 0;
+
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine(prompt);
+
+                // Visa alla alternativ
+                for (int i = 0; i < options.Length; i++)
+                {
+                    if (i == selectedOption)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green; // Markera det valda alternativet
+                        Console.WriteLine($"> {options[i]}");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"  {options[i]}");
+                    }
+                }
+
+                var key = Console.ReadKey(true).Key;
+
+                // Navigera med piltangenter
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        selectedOption = (selectedOption == 0) ? options.Length - 1 : selectedOption - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedOption = (selectedOption == options.Length - 1) ? 0 : selectedOption + 1;
+                        break;
+                    case ConsoleKey.Enter:
+                        return options[selectedOption]; // Returnera det valda alternativet när Enter trycks
+                }
+            }
         }
     }
 }

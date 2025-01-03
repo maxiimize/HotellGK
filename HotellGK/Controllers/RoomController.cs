@@ -1,4 +1,5 @@
-﻿using HotellGK.Services;
+﻿using HotellGK.MenuClasses;
+using HotellGK.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,63 +11,46 @@ namespace HotellGK.Controllers
     public class RoomController
     {
         private readonly RoomService _roomService;
+        private readonly Menu _menu; // Lägg till ett fält för att använda Menu-klassen
 
         public RoomController(RoomService roomService)
         {
             _roomService = roomService;
+            _menu = new Menu(); // Skapa en ny instans av Menu
         }
 
         public void AddRoom()
         {
-            Console.Write("Enter Room Type (Single/Double): ");
-            var roomType = Console.ReadLine();
-            Console.Write("Enter Room Size (Normal/Large): ");
-            var roomSize = Console.ReadLine();
-            Console.Write("Has Extra Beds? (true/false): ");
-            var hasExtraBeds = bool.Parse(Console.ReadLine());
+            string roomType = _menu.DrawMenuController(new[] { "Single", "Double" }, "Select Room Type:");
+            string roomSize = _menu.DrawMenuController(new[] { "Normal", "Large" }, "Select Room Size:");
 
+            // Standardvärde för extra sängar
+            bool hasExtraBeds = false;
             int maxExtraBeds = 0;
-            if (hasExtraBeds)
+
+            // Hantera extra sängar endast om rummet är Double
+            if (roomType.Equals("Double", StringComparison.OrdinalIgnoreCase))
             {
-                if (roomType.Equals("Double", StringComparison.OrdinalIgnoreCase))
+                hasExtraBeds = _menu.DrawMenuController(new[] { "Yes", "No" }, "Has Extra Beds?") == "Yes";
+
+                if (hasExtraBeds)
                 {
                     if (roomSize.Equals("Normal", StringComparison.OrdinalIgnoreCase))
                     {
-                        Console.Write("Enter Max Extra Beds (0-1): ");
-                        maxExtraBeds = int.Parse(Console.ReadLine());
-                        if (maxExtraBeds < 0 || maxExtraBeds > 1)
-                        {
-                            Console.WriteLine("Invalid number of extra beds for a Normal Double room. Must be 0 or 1.");
-                            return;
-                        }
+                        string maxBeds = _menu.DrawMenuController(new[] { "0", "1" }, "Select Max Extra Beds (0-1):");
+                        maxExtraBeds = int.Parse(maxBeds);
                     }
                     else if (roomSize.Equals("Large", StringComparison.OrdinalIgnoreCase))
                     {
-                        Console.Write("Enter Max Extra Beds (0-2): ");
-                        maxExtraBeds = int.Parse(Console.ReadLine());
-                        if (maxExtraBeds < 0 || maxExtraBeds > 2)
-                        {
-                            Console.WriteLine("Invalid number of extra beds for a Large Double room. Must be 0, 1, or 2.");
-                            return;
-                        }
-                    }
-                    else
-                    {
-                        Console.WriteLine("Invalid room size. Must be 'Normal' or 'Large'.");
-                        return;
+                        string maxBeds = _menu.DrawMenuController(new[] { "0", "1", "2" }, "Select Max Extra Beds (0-2):");
+                        maxExtraBeds = int.Parse(maxBeds);
                     }
                 }
-                else if (roomType.Equals("Single", StringComparison.OrdinalIgnoreCase))
-                {
-                    Console.WriteLine("Extra beds are not allowed in Single rooms.");
-                    hasExtraBeds = false;
-                    maxExtraBeds = 0;
-                }
-                else
-                {
-                    Console.WriteLine("Invalid room type. Must be 'Single' or 'Double'.");
-                    return;
-                }
+            }
+            else if (roomType.Equals("Single", StringComparison.OrdinalIgnoreCase))
+            {
+                hasExtraBeds = false;
+                maxExtraBeds = 0;
             }
 
             _roomService.Add(new Room
@@ -78,7 +62,8 @@ namespace HotellGK.Controllers
                 IsAvailable = true
             });
 
-            Console.WriteLine("Room added successfully!");
+            Console.WriteLine("Press any key to continue. . .");
+            
         }
 
         public void ViewRooms()

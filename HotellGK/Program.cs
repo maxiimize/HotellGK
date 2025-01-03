@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HotellGK.Services;
 using HotellGK.Models;
 using HotellGK.Controllers;
+using HotellGK.MenuClasses;
 
 namespace HotellGK
 {
