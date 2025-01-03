@@ -29,7 +29,7 @@ namespace HotellGK
                 "Add Customer",
                 "Update Customer",
                 "Add Booking",
-                "View Guests",
+                "View Customers",
                 "View Bookings",
                 "Delete Room",
                 "Exit"
