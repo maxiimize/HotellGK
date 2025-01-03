@@ -18,12 +18,16 @@ namespace HotellGK
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "appsettings.json");
+
             var configuration = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(Path.GetDirectoryName(path))
+                .AddJsonFile(Path.GetFileName(path), optional: false, reloadOnChange: true)
                 .Build();
 
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
