@@ -94,15 +94,21 @@ namespace HotellGK.Controllers
 
         public void UpdateRoom()
         {
-            Console.Write("Enter Room ID to update: ");
-            if (!int.TryParse(Console.ReadLine(), out var roomIdToUpdate))
+            var rooms = _roomService.GetAll();
+
+            if (!rooms.Any())
             {
-                Console.WriteLine("Invalid Room ID. Please enter a valid number.");
+                Console.WriteLine("No rooms available to update.");
                 Console.ReadKey();
                 return;
             }
 
-            var existingRoom = _roomService.GetAll().FirstOrDefault(r => r.RoomId == roomIdToUpdate);
+            Console.Clear();
+            var roomOptions = rooms.Select(r => $"{r.RoomId}: {r.RoomType}, {r.RoomSize}, Extra Beds: {(r.HasExtraBeds ? "Yes" : "No")}, Available: {(r.IsAvailable ? "Yes" : "No")}").ToArray();
+            string selectedRoom = _menu.DrawMenuController(roomOptions, "Select a room to update:");
+            int roomIdToUpdate = int.Parse(selectedRoom.Split(':')[0]);
+
+            var existingRoom = rooms.FirstOrDefault(r => r.RoomId == roomIdToUpdate);
             if (existingRoom == null)
             {
                 Console.WriteLine("Room not found.");
@@ -110,19 +116,18 @@ namespace HotellGK.Controllers
                 return;
             }
 
-
             string newRoomType = _menu.DrawMenuController(new[] { "Single", "Double" }, $"Select New Room Type (current: {existingRoom.RoomType}):");
-
 
             string newRoomSize = _menu.DrawMenuController(new[] { "Normal", "Large" }, $"Select New Room Size (current: {existingRoom.RoomSize}):");
 
-
-            bool newHasExtraBeds = _menu.DrawMenuController(new[] { "Yes", "No" }, $"Has Extra Beds? (current: {(existingRoom.HasExtraBeds ? "Yes" : "No")})") == "Yes";
-
+            bool newHasExtraBeds = false;
             int newMaxExtraBeds = 0;
-            if (newHasExtraBeds)
+
+            if (newRoomType.Equals("Double", StringComparison.OrdinalIgnoreCase))
             {
-                if (newRoomType.Equals("Double", StringComparison.OrdinalIgnoreCase))
+                newHasExtraBeds = _menu.DrawMenuController(new[] { "Yes", "No" }, $"Has Extra Beds? (current: {(existingRoom.HasExtraBeds ? "Yes" : "No")})") == "Yes";
+
+                if (newHasExtraBeds)
                 {
                     if (newRoomSize.Equals("Normal", StringComparison.OrdinalIgnoreCase))
                     {
@@ -136,9 +141,10 @@ namespace HotellGK.Controllers
                     }
                 }
             }
-            else
+            else if (newRoomType.Equals("Single", StringComparison.OrdinalIgnoreCase))
             {
-                Console.WriteLine("Extra beds will be removed.");
+                newHasExtraBeds = false;
+                newMaxExtraBeds = 0;
             }
 
             _roomService.Update(roomIdToUpdate, new Room
@@ -150,9 +156,11 @@ namespace HotellGK.Controllers
                 IsAvailable = existingRoom.IsAvailable
             });
 
-            Console.WriteLine("Room updated successfully!");
+            Console.WriteLine("Room updated successfully! Press any key to continue...");
             Console.ReadKey();
         }
+
+
 
 
         public void DeleteRoom()

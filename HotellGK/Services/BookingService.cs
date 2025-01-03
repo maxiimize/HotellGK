@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using HotellGK.MenuClasses;
 
 namespace HotellGK.Services
 {
@@ -69,6 +70,17 @@ namespace HotellGK.Services
                                                ((checkInDate >= b.CheckInDate && checkInDate < b.CheckOutDate) ||
                                                 (checkOutDate > b.CheckInDate && checkOutDate <= b.CheckOutDate) ||
                                                 (checkInDate <= b.CheckInDate && checkOutDate >= b.CheckOutDate)));
+        }
+        public List<Room> GetAllAvailableRooms()
+        {
+            var bookedRoomIds = _context.Bookings
+                .Where(b => b.CheckOutDate >= DateTime.Now)
+                .Select(b => b.RoomId)
+                .ToHashSet();
+
+            return _context.Rooms
+                .Where(r => !bookedRoomIds.Contains(r.RoomId))
+                .ToList();
         }
 
     }
