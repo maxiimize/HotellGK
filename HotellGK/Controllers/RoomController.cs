@@ -95,5 +95,72 @@ namespace HotellGK.Controllers
                     $"Available: {room.IsAvailable}");
             }
         }
+
+        public void UpdateRoom()
+        {
+            Console.Write("Enter Room ID to update: ");
+            var roomIdToUpdate = int.Parse(Console.ReadLine());
+            Console.Write("Enter New Room Type (Single/Double): ");
+            var newRoomType = Console.ReadLine();
+            Console.Write("Enter New Room Size (Normal/Large): ");
+            var newRoomSize = Console.ReadLine();
+            Console.Write("Has Extra Beds? (true/false): ");
+            var newHasExtraBeds = bool.Parse(Console.ReadLine());
+
+            int newMaxExtraBeds = 0;
+            if (newHasExtraBeds)
+            {
+                if (newRoomType.Equals("Double", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (newRoomSize.Equals("Normal", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.Write("Enter Max Extra Beds (0-1): ");
+                        newMaxExtraBeds = int.Parse(Console.ReadLine());
+                        if (newMaxExtraBeds < 0 || newMaxExtraBeds > 1)
+                        {
+                            Console.WriteLine("Invalid number of extra beds for a Normal Double room. Must be 0 or 1.");
+                            return;
+                        }
+                    }
+                    else if (newRoomSize.Equals("Large", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Console.Write("Enter Max Extra Beds (0-2): ");
+                        newMaxExtraBeds = int.Parse(Console.ReadLine());
+                        if (newMaxExtraBeds < 0 || newMaxExtraBeds > 2)
+                        {
+                            Console.WriteLine("Invalid number of extra beds for a Large Double room. Must be 0, 1, or 2.");
+                            return;
+                        }
+                    }
+                }
+            }
+
+            _roomService.Update(roomIdToUpdate, new Room
+            {
+                RoomType = newRoomType,
+                RoomSize = newRoomSize,
+                HasExtraBeds = newHasExtraBeds,
+                MaxExtraBeds = newMaxExtraBeds,
+                IsAvailable = true
+            });
+
+            Console.WriteLine("Room updated successfully!");
+        }
+
+        public void DeleteRoom()
+        {
+            Console.Write("Enter Room ID to delete: ");
+            var roomIdToDelete = int.Parse(Console.ReadLine());
+
+            var room = _roomService.GetAll().FirstOrDefault(r => r.RoomId == roomIdToDelete);
+            if (room == null)
+            {
+                Console.WriteLine("Room not found.");
+                return;
+            }
+
+            _roomService.Delete(roomIdToDelete);
+            Console.WriteLine("Room deleted successfully!");
+        }
     }
 }
