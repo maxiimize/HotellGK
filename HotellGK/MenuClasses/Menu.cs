@@ -71,12 +71,12 @@ namespace HotellGK.MenuClasses
                 Console.Clear();
                 Console.WriteLine(prompt);
 
-                // Visa alla alternativ
+                
                 for (int i = 0; i < options.Length; i++)
                 {
                     if (i == selectedOption)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green; // Markera det valda alternativet
+                        Console.ForegroundColor = ConsoleColor.Green; 
                         Console.WriteLine($"> {options[i]}");
                         Console.ResetColor();
                     }
@@ -88,7 +88,7 @@ namespace HotellGK.MenuClasses
 
                 var key = Console.ReadKey(true).Key;
 
-                // Navigera med piltangenter
+                
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
@@ -98,7 +98,7 @@ namespace HotellGK.MenuClasses
                         selectedOption = (selectedOption == options.Length - 1) ? 0 : selectedOption + 1;
                         break;
                     case ConsoleKey.Enter:
-                        return options[selectedOption]; // Returnera det valda alternativet när Enter trycks
+                        return options[selectedOption]; 
                 }
             }
         }

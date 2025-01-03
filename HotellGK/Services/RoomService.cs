@@ -59,20 +59,23 @@ namespace HotellGK.Services
             var room = _context.Rooms.FirstOrDefault(r => r.RoomId == id);
             if (room == null)
             {
-                Console.WriteLine("Room not found.");
-                return;
+                throw new Exception($"Room with ID {id} not found.");
             }
 
-            var hasActiveBookings = _context.Bookings.Any(b => b.RoomId == id);
-            if (hasActiveBookings)
+            
+            var hasAnyBookings = _context.Bookings.Any(b => b.RoomId == id);
+
+            if (hasAnyBookings)
             {
-                Console.WriteLine("Cannot delete room. It has active bookings.");
-                return;
+                throw new Exception($"Cannot delete Room ID {id}. It has associated bookings.");
             }
 
             _context.Rooms.Remove(room);
             _context.SaveChanges();
         }
+
+
+
 
         public List<(Room Room, string Status)> GetRoomStatuses()
         {
@@ -83,14 +86,15 @@ namespace HotellGK.Services
             {
                 var isOccupied = bookings.Any(b =>
                     b.RoomId == room.RoomId &&
-                    b.CheckInDate <= DateTime.Now &&
-                    b.CheckOutDate >= DateTime.Now);
+                    b.CheckInDate.Date <= DateTime.Now.Date &&
+                    b.CheckOutDate.Date > DateTime.Now.Date);
 
                 return (Room: room, Status: isOccupied ? "Occupied" : "Available");
             }).ToList();
 
             return roomStatuses;
         }
+
 
     }
 }

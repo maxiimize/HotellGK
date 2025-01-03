@@ -28,12 +28,12 @@ namespace HotellGK
                 "Add Room",
                 "Update Room",
                 "View Rooms",
+                "Delete Room",
                 "Add Customer",
                 "Update Customer",
-                "Add Booking",
                 "View Customers",
-                "View Bookings",
-                "Delete Room",
+                "Add Booking",
+                "View Bookings",                
                 "Exit"
             };
 
