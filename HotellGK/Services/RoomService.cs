@@ -19,9 +19,17 @@ namespace HotellGK.Services
 
         public void Add(Room entity)
         {
+            if (_context.Rooms.Count() >= 15)
+            {
+                Console.WriteLine("Cannot add more rooms. The maximum limit of 15 rooms has been reached.");
+                return;
+            }
+
             _context.Rooms.Add(entity);
             _context.SaveChanges();
+            Console.WriteLine("Room added successfully!");
         }
+
 
         public List<Room> GetAll()
         {
