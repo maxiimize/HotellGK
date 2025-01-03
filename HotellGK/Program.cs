@@ -16,7 +16,6 @@ namespace HotellGK
             {
                 context.Database.EnsureCreated();
             }
-
             
             var roomService = new RoomService(new HotelDbContext());
             var guestService = new GuestService(new HotelDbContext());
