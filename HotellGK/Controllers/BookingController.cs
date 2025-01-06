@@ -44,6 +44,17 @@ namespace HotellGK.Controllers
             Console.Write("Enter Check-Out Date (yyyy-mm-dd): ");
             DateTime checkOut = DateTime.Parse(Console.ReadLine());
 
+            while (checkOut < checkIn)
+            {
+                Console.WriteLine("Check-Out Date must occur after Check-In Date. Try again");
+
+                Console.Write("Enter Check-In Date (yyyy-mm-dd): ");
+                checkIn = DateTime.Parse(Console.ReadLine());
+
+                Console.Write("Enter Check-Out Date (yyyy-mm-dd): ");
+                checkOut = DateTime.Parse(Console.ReadLine());
+            }
+
             if (!_bookingService.IsRoomAvailable(roomId, checkIn, checkOut))
             {
                 Console.WriteLine("Room is not available for the selected dates.");
