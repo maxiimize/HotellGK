@@ -4,6 +4,7 @@ using HotellGK.Services;
 using HotellGK.Models;
 using HotellGK.Controllers;
 using HotellGK.MenuClasses;
+using Spectre.Console;
 
 namespace HotellGK
 {
@@ -11,7 +12,9 @@ namespace HotellGK
     {
         static void Main(string[] args)
         {
-            
+            AnsiConsole.Markup("[underline red]Hello[/] World!");
+
+
             using (var context = new HotelDbContext())
             {
                 context.Database.EnsureCreated();
