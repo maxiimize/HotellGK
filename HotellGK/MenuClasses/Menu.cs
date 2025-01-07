@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HotellGK.MenuClasses
 {
@@ -10,10 +6,12 @@ namespace HotellGK.MenuClasses
     {
         public static void DrawMenu(string[] options, int selectedOption)
         {
+            Console.Clear();
+            DrawHotelAscii();
+
             int boxWidth = 30;
             int boxHeight = options.Length + 4;
 
-            // Ritar topp kanten
             Console.WriteLine(new string(' ', (Console.WindowWidth - boxWidth) / 2) + new string('=', boxWidth));
 
             for (int i = 0; i < boxHeight; i++)
@@ -44,8 +42,34 @@ namespace HotellGK.MenuClasses
                 }
             }
 
-            // Ritar botten kanten
             Console.WriteLine(new string(' ', (Console.WindowWidth - boxWidth) / 2) + new string('=', boxWidth));
+        }
+
+        public static void DrawHotelAscii()
+        {
+            string[] asciiHotel = new[]
+            {
+                "       _||__||_",
+                "      (        )",
+                "     (__________)",
+                "     |          |",
+                "     | HOTEL GK |",
+                "     |__________|",
+                "     |  __  __  |",
+                "     | |  ||  | |",
+                "     | |__||__| |",
+                "     |  __  __()|",
+                "     | |  ||  | |",
+                "     | |__||__| |",
+                "     |__________|"
+            };
+
+            foreach (var line in asciiHotel)
+            {
+                Console.WriteLine(new string(' ', (Console.WindowWidth - line.Length) / 2) + line);
+            }
+
+            Console.WriteLine();
         }
 
         public static void HandleMenuSelection(string selectedOption)
@@ -69,14 +93,14 @@ namespace HotellGK.MenuClasses
             while (true)
             {
                 Console.Clear();
+                DrawHotelAscii();
                 Console.WriteLine(prompt);
 
-                
                 for (int i = 0; i < options.Length; i++)
                 {
                     if (i == selectedOption)
                     {
-                        Console.ForegroundColor = ConsoleColor.Green; 
+                        Console.ForegroundColor = ConsoleColor.Green;
                         Console.WriteLine($"> {options[i]}");
                         Console.ResetColor();
                     }
@@ -88,7 +112,6 @@ namespace HotellGK.MenuClasses
 
                 var key = Console.ReadKey(true).Key;
 
-                
                 switch (key)
                 {
                     case ConsoleKey.UpArrow:
@@ -98,7 +121,7 @@ namespace HotellGK.MenuClasses
                         selectedOption = (selectedOption == options.Length - 1) ? 0 : selectedOption + 1;
                         break;
                     case ConsoleKey.Enter:
-                        return options[selectedOption]; 
+                        return options[selectedOption];
                 }
             }
         }
